@@ -1,0 +1,49 @@
+version: '3.1'
+services:
+  # back:
+  #   build: back
+  #   ports:
+  #     - '4201:4201'
+  #   volumes:
+  #     - './back/app/srcs:/app/srcs'
+  #   depends_on:
+  #     - mongo
+  #   environment:
+  #     - PORT=4201
+  #     - 'DB_HOST=mongodb://mongo'
+  #     - DB_PORT=27017
+  #     - DB_NAME=test
+  #     - DB_USER=root
+  #     - DB_PASSWORD=example
+  #   networks:
+  #     - default
+
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - default
+    logging:
+      driver: none
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - '18082:8082'
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    networks:
+      - default
+    logging:
+      driver: none
+
+networks:
+  default:
+    driver: "bridge"
